@@ -1,0 +1,253 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0027)http://n158.cs.fiu.edu/help -->
+<HTML><HEAD><TITLE>HPDRC Spatial Web Service Help</TITLE>
+<META http-equiv=Content-Language content=en-us>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<META content="Microsoft FrontPage 4.0" name=GENERATOR>
+<META content=FrontPage.Editor.Document name=ProgId></HEAD>
+<BODY>
+<P align=center><B><font size="2">HPDRC Spatial Web Service 
+Help&nbsp;</font></B></P>
+<P align=center><FONT size=2>Release as of <!--webbot bot="Timestamp"
+startspan S-Type="REGENERATED" S-Format="%m/%d/%Y %I:%M %p" -->10/17/2002 07:18 PM<!--webbot
+bot="Timestamp" i-CheckSum="26653" endspan --> </FONT></P>
+<P align=left><FONT size=2><B>Commands:</B></FONT></P>
+<P align=left><font size="2"><B>1. help </B>- displays this page. Example: <A 
+href="http://n158.cs.fiu.edu/help">http://n158.cs.fiu.edu/help</A></font></P>
+<P align=left><FONT size=2><B>2. street?street=&lt;street_address>&amp;zip=&lt;zip>&amp;city=&lt;city>&amp;state=&lt;state><br>
+</B></FONT><FONT size=2>Finds the nearest address range and interpolates the
+coordinate of the house.</FONT></P>
+<P align=left><FONT size=2>Example:<br>
+<br>
+<a href="http://n158.cs.fiu.edu/street?street=100 lincoln rd&amp;city=Miami fl">http://n158.cs.fiu.edu/street?street=100 lincoln rd&amp;city=Miami fl</a><br>
+Result:<br>
+X=-80.129217	Y=25.790115<br>
+Level=1	Exact match<br>
+<br>
+Possible result codes are:<br>
+1 'Exact match'<br>
+2 'Approx match' - the program could not find the exact range, but found the nearest syntactic match or range<br>
+3 'Zip center' - the returned coordinate is the zip code center<br>
+4 'City Center' - the returned coordinate is the city center<br>
+5 'Not Found' - nothing was found<br>
+<br>
+<br>
+The state can optionally be appended to the city field. If the street= field is missing or contains a PO Box,
+the program will search for the zip code center or city center.</FONT></P>
+<P align=left><font size="2">The city, zip, state fields may be missing.</font></P>
+<P align=left><font size="2"><b>3</b><B>. Strip objects commands:</B></font></P>
+<P align=left><font size="2">The following strip objects commands are active now:<br>
+Command&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Description<br>
+<b>hotels&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+US hotels<br>
+gnis&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+GNIS data<br>
+uschool&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; US schools<br>
+real&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Real estate<br>
+folio&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Miami Date folios<br>
+modis&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Modis fires<br>
+hms&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+HMS fires<br>
+fimma&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Fimma Fires<br>
+abba&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ABBA fires<br>
+raws&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+RAWS weather stations<br>
+</b><br>
+each command has the following syntax:<br>
+<br>
+<b>&lt;command>?x1=number&amp;y1=number[&amp;x2=number&amp;y2=number][&amp;limit=number][&amp;d=number][&amp;header=1/0][&amp;numfind=number]<br>
+</b><br>
+Examples:<br>
+<br>
+Find 10 nearest properties and sort by distance:<br>
+<a href="http://n158.cs.fiu.edu/folio?x1=-80.129138&amp;y1=25.790404&amp;numfind=10&amp;printdist=1&amp;header=1">
+http://n158.cs.fiu.edu/folio?x1=-80.129138&amp;y1=25.790404&amp;numfind=10&amp;printdist=1&amp;header=1</a><br>
+<br>
+Find all properties within 0.5 miles from the point and sort by distance:<br>
+<a href="http://n158.cs.fiu.edu/folio?x1=-80.129138&amp;y1=25.790404&amp;d=0.5&amp;limit=1000&amp;printdist=1&amp;header=1">
+http://n158.cs.fiu.edu/folio?x1=-80.129138&amp;y1=25.790404&amp;d=0.5&amp;limit=1000&amp;printdist=1&amp;header=1</a><br>
+<br>
+Options description:<br>
+<b>x1, y1</b> - the point coordinates or the rectangle corner.<br>
+<b>x2, y2</b> - the opposite rectangle corner, optional for rectangle queries.<br>
+<b>limit</b>  - limits the number of results to the specified number.&nbsp;<br>
+&nbsp;&nbsp;&nbsp; The default is 100. If the limit is exceeded, no results is returned.&nbsp;<br>
+&nbsp;&nbsp;&nbsp; An error message is returned instead: ERROR: LIMIT EXCEEDED. FOUND:number<br>
+<b>numfind</b> - valid for point (where x2 and y2 is not specified) queries only.<br>
+&nbsp;&nbsp;&nbsp; Specifies the number of objects to find that are closesest to&nbsp;<br>
+&nbsp;&nbsp;&nbsp; the specified point in x1 and y1.<br>
+<b>printdist</b> - print the distance in meters, direction and offset fields by&nbsp;<br>
+&nbsp;&nbsp;&nbsp; appending them to the strip record<br>
+<b>header</b> - pre-pend the strip header.<br>
+</font></P>
+<P align=left><B><FONT face="Times New Roman" size=2>4. 
+city?x1=number&amp;y1=number</FONT></B></P>
+<P align=left><FONT face="Times New Roman" size=2>This command returns the 
+nearest city to the given coordinates record in the strip format. The city 
+records are taken in the strip format from the file root\Cities\all.cities, 
+where the root is the root program directory.</FONT></P>
+<P class=MsoNormal style="mso-layout-grid-align: none"><SPAN 
+style="mso-bidi-font-size: 10.0pt"><FONT size=2>The distance to the city is 
+shown in miles measured as a circle distance on earth surface using the 
+formula:</FONT></SPAN></P>
+<P class=MsoNormal style="mso-layout-grid-align: none"><SPAN 
+style="mso-bidi-font-size: 10.0pt"><FONT 
+size=2><O:P></O:P>D=69.115*180*arccos(sin(pi*y1/180)*sin(pi*y2/180)+cos(pi*y1/180)*cos(pi*abs(x1-x2)/180)), 
+where x2 and y2 are the longitude and latitude of the city.</FONT></SPAN></P>
+<P align=left><FONT face="Times New Roman" size=2>Example:&nbsp;</FONT></P>
+<P align=left><SPAN style="mso-bidi-font-size: 10.0pt"><font size="2"><A 
+href="http://n158.cs.fiu.edu/city?x1=-84&amp;y1=27">http://n158.cs.fiu.edu/city?x1=-84&amp;y1=27</A><O:P> 
+&nbsp;</font></SPAN></P>
+<P align=left><font size="2">The record format: the fields are the tab delimited:
+citycode, cityname, statecode or null, countrycode, 
+statename or null, countryname, lattitude, longitude.</font></P><P align=left><FONT size=2><b>5.
+Shape commands</b></FONT></P>
+<P align=left><font size="2">The following shape queries are active now: (data
+from www.census.gov)<br>
+<b>Command&nbsp;&nbsp;&nbsp;&nbsp; Description<br>
+bg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</b><FONT face="Times New Roman" size=2><B><A 
+href="http://www.census.gov/geo/www/cob/bg2000.html">2000 Census Block 
+Groups</A>&nbsp;</B> records as described in the <A 
+href="http://www.census.gov/geo/www/cob/bg_metadata.html">Metadata</A></FONT><b><br>
+tracts&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b><FONT face="Times New Roman" size=2><B><FONT 
+color=#000000><A href="http://www.census.gov/geo/www/cob/tr2000.html">2000 
+Census Tracts&nbsp;</A></FONT></B> records as described in the <A 
+href="http://www.census.gov/geo/www/cob/tr_metadata.html">Metadata</A></FONT><b><br>
+incorp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b><FONT face="Times New Roman" size=2><B><FONT 
+color=#000000><A href="http://www.census.gov/geo/www/cob/pl2000.html">2000 
+Incorporated Places/Census Designated Places</A></FONT></B> records as described 
+in the <A 
+href="http://www.census.gov/geo/www/cob/pl_metadata.html">Metadata</A>.</FONT></font></P>
+<P align=left><font size="2"><b>subcounty&nbsp;&nbsp;&nbsp; </b><FONT face="Times New Roman" size=2><B><FONT 
+color=#000000><A href="http://www.census.gov/geo/www/cob/cs2000.html">2000 
+County Subdivisions</A></FONT></B> records as described in the<A 
+href="http://www.census.gov/geo/www/cob/cs_metadata.html"> Metadata</A></FONT><b><br>
+congress&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b><FONT face="Times New Roman" size=2><FONT 
+color=#000000><B><A href="http://www.census.gov/geo/www/cob/cd107.html">107th 
+Congressional Districts (Jan. 2001 - Jan. 2003)</A></B></FONT><A 
+href="http://www.census.gov/geo/www/cob/cd107.html"> </A>records as described in 
+the <A href="http://www.census.gov/geo/www/cob/cd_metadata.html">Metadata</A></FONT><b><br>
+counties&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b><FONT face="Times New Roman" size=2><B><FONT 
+color=#000000><A href="http://www.census.gov/geo/www/cob/co2000.html">2000 
+County and County Equivalent Areas</A></FONT></B><A 
+href="http://www.census.gov/geo/www/cob/co2000.html"> </A>records as described 
+in the <A 
+href="http://www.census.gov/geo/www/cob/co_metadata.html">Metadata</A></FONT><b><br>
+metro&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b><FONT face="Times New Roman" size=2><B><FONT 
+color=#000000><A href="http://www.census.gov/geo/www/cob/ma1999.html">1999 
+Metropolitan Areas</A></FONT></B> records as described in the <A 
+href="http://www.census.gov/geo/www/cob/ma_metadata.html">Metadata</A></FONT><b><br>
+state&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2000 Census States</b></font></P>
+<P align=left><font size="2"><b>zip&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2000 census zip codes, </b><b>see </b><A href="http://www.census.gov/geo/www/cob/z52000.html">US zip code census 
+files</A></font></P>
+<P align=left><font size="2"><FONT face="Times New Roman">Example: <SPAN 
+style="FONT-FAMILY: Times New Roman; mso-bidi-font-size: 10.0pt; mso-fareast-font-family: Times New Roman; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA"><A 
+href="http://n158.cs.fiu.edu/county?x1=-80.125&amp;y1=25.95">http://</A></SPAN></FONT><A 
+href="http://n158.cs.fiu.edu/county?x1=-80.125&amp;y1=25.95"><SPAN 
+style="FONT-FAMILY: Times New Roman; mso-bidi-font-size: 10.0pt; mso-fareast-font-family: Times New Roman; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA">n158.cs.fiu.edu</SPAN><FONT face="Times New Roman"><SPAN 
+style="FONT-FAMILY: Times New Roman; mso-bidi-font-size: 10.0pt; mso-fareast-font-family: Times New Roman; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA">/county?x1=-80.125&amp;y1=25.95</SPAN></FONT></A></font></P>
+<P align=left><font size="2"><b>syntax:<br>
+</b><br>
+<b>&lt;command&gt;?x1=number&amp;y1=number[&amp;x2=number&amp;y2=number][&amp;resx=number&amp;resy=number][&amp;limit=number][&amp;center=0/1][&amp;bbox=0/1][&amp;stat=0/1][&amp;dir=0/1][&amp;census=0/1]<br>
+</b><br>
+<b>x1, y1</b> - the point coordinates or the rectangle corner.<br>
+<b>x2, y2</b> - the opposite rectangle corner, optional for rectangle queries.<br>
+<b>limit</b> - limits the number of results to the specified number.&nbsp;<br>
+The default is 100. If the limit is exceeded, no results is returned.&nbsp;<br>
+An error message is returned instead: ERROR: LIMIT EXCEEDED. FOUND:number<br>
+<br>
+<b>bbox=1 or 0</b> - output the shape bounding box<br>
+<b>stat=1 or 0</b> - output the census statistics records provided by M.
+Baranovsky<br>
+<b>dir=1 or 0</b> - optionally append the distance and the direction to each
+object's center from x1 y1<br>
+<b>census=1 or 0</b> - optionally append the word 'census' to each record in the
+output</font></P>
+<P align=left><FONT size=2><B>precise=1 or 0</B> option causes the program to 
+find a precise intersection of the specified bounding rectangle with the area polygon.&nbsp;</FONT> </P>
+<P align=left><font size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Otherwise the program returns all areas with the bounding rectangles that intersect the given rectangle.</font></P>
+<P align=left><FONT size=2> <B>town=1 or 0</B> - will return the associated city and 
+state information for the zip codes. This option is implemented for the zip code query 
+only.</FONT></P>
+<P align=left><font size="2"><br>
+<b>resx=integer&amp;resy=integer</b> will return the intersection of the shape
+polygon contour with the specified rectangle scaled into integer bitmap
+coordinates.&nbsp; When scaling, it is assumed the bitmap point (0,0)
+corresponds to the earth point with coordinates (x1, y2) and the bitmap point (resx,
+resy) corresponds to the earth point with coordinates (x2,y1) - this is the
+standard for bitmaps. The polygon is appended in brackets {} to the normal
+program output. Each polygon consists of 1 or more contours. Contours can be the
+area contours or hole contours. (Holes do not belong to the area). Area contours
+start with 0, hole contours start with 1. The bitmap integer x and y coordinates
+of the vertices of the intersection contour follow the hole indicator in a
+clockwise order. The plotting program is supposed to plot a line starting from
+the first vertex to the next and so on, finishing at the first vertex at the
+end. In the example below, the zip code 33009 consists of two non-hole
+contours:&nbsp;<br>
+<br>
+<a href="http://n158.cs.fiu.edu/zip?x1=-80.125&amp;y1=25.95&amp;x2=-80&amp;y2=26&amp;resx=800&amp;resy=600&nbsp;">
+http://n158.cs.fiu.edu/zip?x1=-80.125&amp;y1=25.95&amp;x2=-80&amp;y2=26&amp;resx=800&amp;resy=600&nbsp;<br>
+</a>
+<br>
+0<br>
+29 268<br>
+33 299<br>
+16 300<br>
+24 166<br>
+34 164<br>
+<br>
+<br>
+and<br>
+<br>
+0<br>
+31 34<br>
+20 116<br>
+7 300<br>
+5 308<br>
+0 308<br>
+0 0<br>
+33 0<br>
+<br>
+<b>center=1</b> will output the center of the zip code as specified in the
+census files scaled to the bitmap coordinates. Note that the center may lie
+outside of the bitmap boundaries. In that case the scaled center coordinates
+will be either less than zero or greater than the specified bitmap resolution<br>
+<B><br>
+</B><FONT face="Times New Roman" size=2><B>6. explore - 
+</B>Interactive hotel browser interface that allows you to search for hotels by 
+zip code, city name, and location coordinates.</FONT></font></P>
+<P align=left><FONT face="Times New Roman" size=2>Example:</FONT></P>
+<P align=left><A href="http://n158.cs.fiu.edu/explore"><SPAN 
+style="FONT-FAMILY: Times New Roman; mso-bidi-font-size: 10.0pt; mso-fareast-font-family: Times New Roman; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA"><FONT 
+size=2>http://n158.cs.fiu.edu/explore</FONT></SPAN></A></P>
+<P align=left><FONT face="Times New Roman" size=2>Retrieves the . The 
+options have the same meaning as in the zip? command. The default is 
+precise=1.</FONT></P>
+<P align=left><font size="2"><FONT face="Times New Roman">Example: <SPAN 
+style="FONT-FAMILY: Times New Roman; mso-bidi-font-size: 10.0pt; mso-fareast-font-family: Times New Roman; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA"><A 
+href="http://n158.cs.fiu.edu/county?x1=-80.125&amp;y1=25.95">http://</A></SPAN></FONT><A 
+href="http://n158.cs.fiu.edu/county?x1=-80.125&amp;y1=25.95"><SPAN 
+style="FONT-FAMILY: Times New Roman; mso-bidi-font-size: 10.0pt; mso-fareast-font-family: Times New Roman; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA">n158.cs.fiu.edu</SPAN><FONT face="Times New Roman"><SPAN 
+style="FONT-FAMILY: Times New Roman; mso-bidi-font-size: 10.0pt; mso-fareast-font-family: Times New Roman; mso-ansi-language: EN-US; mso-fareast-language: EN-US; mso-bidi-language: AR-SA">/county?x1=-80.125&amp;y1=25.95</SPAN></FONT></A></font></P>
+<P align=left><font size="2"><b>7. <SPAN 
+style="mso-bidi-font-size: 10.0pt">query?category=name1&amp;category=name2...</SPAN></b></font></P>
+<P align=left><FONT size=2><SPAN style="mso-bidi-font-size: 10.0pt">This command 
+allows you to retrieve multiple queries 2-12 in a single HTTP 
+request.<O:P> 
+</O:P></SPAN></FONT></P>
+<P class=MsoNormal style="mso-layout-grid-align: none"><font size="2"><SPAN 
+style="mso-bidi-font-size: 10.0pt">Example:<O:P> 
+</O:P>&nbsp;<A 
+href="http://n158.cs.fiu.edu/query?category=zip&amp;category=incorp&amp;category=county&amp;x1=-121.97306&amp;y1=37.79139&amp;x2=-121.98306&amp;y2=38.89139">http://n158.cs.fiu.edu/query?category=zip&amp;category=incorp&amp;category=county&amp;x1=-121.97306&amp;y1=37.79139&amp;x2=-121.98306&amp;y2=38.89139<O:P> 
+</O:P></A></SPAN></font></P>
+<P class=MsoNormal style="mso-layout-grid-align: none"><FONT size=2>If category= 
+is omitted, all available queries will be returned.</FONT></P></BODY></HTML>

@@ -1,0 +1,86 @@
+WLBS Cluster Control Utility V2.4 (c) 1997-2003 Microsoft Corporation.
+Usage: WLBS <command> [/PASSW [<password>]] [/PORT <port>] 
+<command>
+  help                                  - displays this help
+  ip2mac    <cluster>                   - displays the MAC address for the
+                                          specified cluster
+  reload    [<cluster> | ALL]           - reloads the driver's parameters from
+                                          the registry for the specified
+                                          cluster (local only). Same as ALL if
+                                          parameter is not specified.
+  display   [<cluster> | ALL]           - displays configuration parameters,
+                                          current status, and last several
+                                          event log messages for the specified
+                                          cluster (local only). Same as ALL if
+                                          parameter is not specified.
+  query     [<cluster_spec>]            - displays the current cluster state
+                                          for the current members of the
+                                          specified cluster. If not specified a
+                                          local query is performed for all
+                                          instances.
+  suspend   [<cluster_spec>]            - suspends cluster operations (start,
+                                          stop, etc.) for the specified cluster
+                                          until the resume command is issued.
+                                          If cluster is not specified, applies
+                                          to all instances on local host.
+  resume    [<cluster_spec>]            - resumes cluster operations after a
+                                          previous suspend command for the
+                                          specified cluster. If cluster is not
+                                          specified, applies to all instances
+                                          on local host.
+  start     [<cluster_spec>]            - starts cluster operations on the
+                                          specified hosts. Applies to local
+                                          host if cluster is not specified.
+  stop      [<cluster_spec>]            - stops cluster operations on the
+                                          specified hosts. Applies to local
+                                          host if cluster is not specified.
+  drainstop [<cluster_spec>]            - disables all new traffic handling on
+                                          the specified hosts and stops cluster
+                                          operations. Applies to local host if
+                                          cluster is not specified.
+  enable    <port_spec> <cluster_spec>  - enables traffic handling on the
+                                          specified cluster for the rule whose
+                                          port range contains the specified
+                                          port
+  disable   <port_spec> <cluster_spec>  - disables ALL traffic handling on the
+                                          specified cluster for the rule whose
+                                          port range contains the specified
+                                          port
+  drain     <port_spec> <cluster_spec>  - disables NEW traffic handling on the
+                                          specified cluster for the rule whose
+                                          port range contains the specified
+                                          port
+  queryport [<vip>:]<port>              - retrieve the current state of the
+            [<cluster_spec>]              port rule. If the rule is handling
+                                          traffic, packet handling statistics
+                                          are also returned.
+  params [<cluster> | ALL]              - retrieve the current parameters from
+                                          the NLB driver for the specified
+                                          cluster on the local host.
+<port_spec>
+  [<vip>: | ALL:](<port> | ALL)         - every virtual ip address (neither
+                                          <vip> nor ALL) or specific <vip> or
+                                          the "All" vip, on a specific <port>
+                                          rule or ALL ports
+<cluster_spec>
+  <cluster>:<host> | ((<cluster> | ALL) - specific <cluster> on a specific
+  (LOCAL | GLOBAL))                       <host>, OR specific <cluster> or ALL
+                                          clusters, on the LOCAL machine or all
+                                          (GLOBAL) machines that are a part of
+                                          the cluster
+  <cluster>                             - cluster name | cluster primary IP
+                                          address
+  <host>                                - host within the cluster (default -
+                                          ALL hosts): dedicated name |
+                                          IP address | host priority ID (1..32)
+                                          | 0 for current DEFAULT host
+  <vip>                                 - virtual ip address in the port rule
+  <port>                                - TCP/UDP port number
+
+Remote options:
+  /PASSW <password>                     - remote control password (default -
+                                          NONE)
+                                          blank <password> for console prompt
+  /PORT <port>                          - cluster's remote control UDP port
+
+For detailed information, see the online help for NLB.

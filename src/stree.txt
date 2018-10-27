@@ -1,0 +1,144 @@
+WLBS Cluster Control Utility V2.4 (c) 1997-2003 Microsoft Corporation.
+
+=== Configuration: ===
+
+Current time              = 10/16/2006 11:04:48 PM
+ParametersVersion         = 4
+VirtualNICName            = 
+AliveMsgPeriod            = 1000
+AliveMsgTolerance         = 5
+NumActions                = 100
+NumPackets                = 200
+NumAliveMsgs              = 66
+ClusterNetworkAddress     = 01-00-5e-7f-82-9f
+ClusterName               = stree.cs.fiu.edu
+ClusterIPAddress          = 131.94.130.159
+ClusterNetworkMask        = 255.255.255.0
+DedicatedIPAddress        = 131.94.130.24
+DedicatedNetworkMask      = 255.255.255.0
+HostPriority              = 2
+ClusterModeOnStart        = STARTED
+PersistedStates           = NONE
+DescriptorsPerAlloc       = 512
+MaxDescriptorAllocs       = 512
+TCPConnectionTimeout      = 60
+IPSecConnectionTimeout    = 86400
+FilterICMP                = DISABLED
+ScaleSingleClient         = 0
+NBTSupportEnable          = 1
+MulticastSupportEnable    = 1
+MulticastARPEnable        = 1
+MaskSourceMAC             = 1
+IGMPSupport               = ENABLED
+IPtoMcastIP               = ENABLED
+McastIPAddress            = 0.0.0.0
+NetmonAliveMsgs           = 0
+EffectiveVersion          = V2.1
+IPChangeDelay             = 60000
+IPToMACEnable             = 1
+ConnectionCleanupDelay    = 300000
+RemoteControlEnabled      = 1
+RemoteControlUDPPort      = 2504
+RemoteControlCode         = 0x837FD95A
+RemoteMaintenanceEnabled  = 0x0
+CurrentVersion            = V2.4
+InstallDate               = 0x4255A563
+VerifyDate                = 0x0
+NumberOfRules             = 1
+BDATeaming                = DISABLED
+TeamID                    = 
+Master                    = DISABLED
+ReverseHash               = DISABLED
+IdentityHeartbeatPeriod   = 10000
+IdentityHeartbeatEnabled  = ENABLED
+PortRules                 
+Virtual IP addr Start	End	Prot	Mode		Pri	Load	Affinity
+            ALL	    0	65535	TCP	Single    	 2
+
+
+=== Event messages: ===
+
+#12143 ID: 0xC0070011 Type: 1 Category: 0 Time: 10/16/2006 11:04:40 PM
+NLB Cluster 131.94.130.159 : Duplicate host priority 2 was discovered on the network.  Please check the NLB configuration on all hosts that belong to the cluster and make sure that they all contain unique host priorities between 1 and 32.  
+000C0000 005A0004 00000000 C0070011 00000000 00000000 00000000 00000000 
+00000000 00000000 00060933 00000000 00000000 
+
+#12141 ID: 0x40070005 Type: 4 Category: 0 Time: 10/16/2006 11:04:40 PM
+NLB Cluster 131.94.130.159 : Cluster mode started with host ID 2.  
+000C0000 005A0004 00000000 40070005 00000000 00000000 00000000 00000000 
+00000000 00000000 00052B60 00000000 00000000 
+
+#12139 ID: 0x4007003F Type: 4 Category: 0 Time: 10/16/2006 11:04:40 PM
+NLB Cluster 131.94.130.159 : Initiating convergence on host 2.  Reason: Host 2 is joining the cluster. 
+000C0000 005A0004 00000000 4007003F 00000000 00000000 00000000 00000000 
+00000000 00000000 0006081E 00000000 00000000 
+
+#12137 ID: 0x40070024 Type: 4 Category: 0 Time: 10/16/2006 11:04:40 PM
+NLB Cluster 131.94.130.159 : Registry parameters successfully reloaded.   
+000C0000 005A0004 00000000 40070024 00000000 00000000 00000000 00000000 
+00000000 00000000 00052B45 00000000 00000000 
+
+#12135 ID: 0x40070006 Type: 4 Category: 0 Time: 10/16/2006 11:04:40 PM
+NLB Cluster 131.94.130.159 : Cluster mode stopped.   
+000C0000 005A0004 00000000 40070006 00000000 00000000 00000000 00000000 
+00000000 00000000 00052AF3 00000000 00000000 
+
+#12127 ID: 0x4007001C Type: 4 Category: 0 Time: 10/16/2006 10:48:01 PM
+NLB Cluster 131.94.130.159 : Host 1 converged with host(s) 1,2 as part of the cluster.
+000C0000 005A0004 00000000 4007001C 00000000 00000000 00000000 00000000 
+00000000 00000000 00061516 00000000 00000000 
+
+#12125 ID: 0x4007004B Type: 4 Category: 0 Time: 10/16/2006 10:47:55 PM
+NLB Cluster 131.94.130.159 : Current NLB host state successfully updated in the registry.
+000C0000 005A0004 00000000 4007004B 00000000 00000000 00000000 00000000 
+00000000 00000000 000803D2 00000000 00000000 
+
+#12123 ID: 0x40070005 Type: 4 Category: 0 Time: 10/16/2006 10:47:55 PM
+NLB Cluster 131.94.130.159 : Cluster mode started with host ID 1.  
+000C0000 005A0004 00000000 40070005 00000000 00000000 00000000 00000000 
+00000000 00000000 00052C1F 00000000 00000000 
+
+#12121 ID: 0x4007003F Type: 4 Category: 0 Time: 10/16/2006 10:47:55 PM
+NLB Cluster 131.94.130.159 : Initiating convergence on host 1.  Reason: Host 1 is joining the cluster. 
+000C0000 005A0004 00000000 4007003F 00000000 00000000 00000000 00000000 
+00000000 00000000 0006081E 00000000 00000000 
+
+#12119 ID: 0x4007002E Type: 4 Category: 0 Time: 10/16/2006 10:47:55 PM
+NLB Cluster 131.94.130.159 : START remote control request received from 131.94.130.159:4778. 
+000C0000 005A0004 00000000 4007002E 00000000 00000000 00000000 00000000 
+00000000 00000000 000530B6 00000000 00000000 
+
+
+=== IP configuration: ===
+
+
+Windows IP Configuration
+
+   Host Name . . . . . . . . . . . . : stree1
+   Primary Dns Suffix  . . . . . . . : cs.fiu.edu
+   Node Type . . . . . . . . . . . . : Unknown
+   IP Routing Enabled. . . . . . . . : No
+   WINS Proxy Enabled. . . . . . . . : No
+   DNS Suffix Search List. . . . . . : cs.fiu.edu
+                                       fiu.edu
+
+Ethernet adapter Local Area Connection 2:
+
+   Connection-specific DNS Suffix  . : 
+   Description . . . . . . . . . . . : 3Com EtherLink XL 10/100 PCI TX NIC (3C905B-TX)
+   Physical Address. . . . . . . . . : 00-04-76-9E-82-41
+   DHCP Enabled. . . . . . . . . . . : No
+   IP Address. . . . . . . . . . . . : 131.94.130.159
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   IP Address. . . . . . . . . . . . : 131.94.130.24
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 131.94.130.4
+   DNS Servers . . . . . . . . . . . : 131.94.130.4
+                                       131.94.134.130
+
+=== Current state: ===
+
+Host 2 has entered a converging state 1 time(s) since joining the cluster 
+  and is currently still in a state of convergence.
+Host 2 converging with the following host(s) as part of the cluster:
+2

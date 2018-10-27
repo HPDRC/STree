@@ -1,0 +1,617 @@
+unit StripReal;
+interface
+
+uses
+  SysUtils, Stree,  IdHTTPServer, Syncobjs, webobject, IdCustomHTTPServer, stripobject;
+
+const FL_Active = 1;
+const FL_Archived = 2;
+
+const HashMax = 16*1024-1;
+
+type TKeyHashRec = record
+          ID : integer;
+          Key : String;
+          Next : integer;
+     end;
+
+type TStripReal = class(TStripObject)
+  public
+// persistent data
+    KeyHash : array of TKeyHashRec;
+    HashTable : array[0..HashMax] of integer;
+    KeyHashLen, ArcF : integer;
+    ParentObject : TStripReal;
+    CurrentDate, CurrentTime : String;
+    DCurrentDate : double;
+    Files : array of String;
+    TimeStamps : Array of integer;
+    CSFile : TCriticalSection;
+    procedure Init(Oldobject: TWebObject = nil); override;
+    function  GetKey(Var S : String) : String;
+    function  GetStrip(ID : integer) : String;
+    function  FindNotArchivedStripByKey(Var Key : String) : integer;
+    function  AddPricesandStamps(Var Line, OldLine : string; Var LastUpdate : integer) : boolean;
+    procedure AddStamp(Var Line : String);
+    procedure FetchStrip(idx : integer; Var V); override;
+    procedure Archive;
+    procedure SortFiles;
+    procedure LoadAllFiles; override;
+    procedure AddStrip(Var Lat, Lon: String; Line : String); override;
+    procedure AddFile1(Name : String);
+    procedure LoadBase; override;
+    procedure SaveBase; override;
+    procedure AddToHash(Var Key : String; ID : integer);
+    procedure DeleteFromHash(Key : String);
+    procedure SaveHash;
+    procedure LoadHash;
+    function  GetFileDate(Var F : String) : String;
+    function  GetPrice(Var LIne : String) : String;
+    function  TooOld(Var Line : String) : boolean;
+    function  FindByKey(Var Key : String) : String; override;
+    function  CheckDate(Obj, Date, Oper : integer) : boolean; override;
+    procedure Convert(Var Line : String);
+    { Public declarations }
+  end;
+
+implementation
+uses FileIO, parser, cityobject, streetobject, dbtables, InovaGIS_TLB,  winprocs;
+
+type tbytearray = array[0..7] of byte;
+     Ptbytearray = ^tbytearray;
+
+
+function  TStripReal.CheckDate(Obj, Date, Oper : integer) : boolean;
+begin
+   if Oper = OpGr then
+      Result := TimeStamps[Obj] >= Date
+   else if Oper = OpLe then
+      Result := TimeStamps[Obj] <= Date
+   else if Oper = OpEq then
+      Result := TimeStamps[Obj] = Date;
+end;
+
+function GetFlags(Var S : TStripRec) : byte;
+begin
+   result := PtByteArray(@S.DataStart)^[7];
+end;
+
+procedure SetFlags(Var S : TStripRec; flags : byte);
+begin
+   PtByteArray(@S.DataStart)^[7] := flags;
+end;
+
+function GetStart(Var S : TStripRec) : int64;
+begin
+  result := S.DataStart and $00ffffffffffffff;
+end;
+
+procedure SetStart(Var S : TStripRec; Start : int64);
+begin
+  S.DataStart := (S.DataStart and $ff00000000000000) + Start;
+end;
+
+procedure TStripReal.Init(Oldobject: TWebObject);
+begin
+   CSFile := TCriticalSection.create;
+   ArcF := -1;
+   ParentObject := TStripReal(OldObject);
+   fileformat := 'strip';
+   KeyHashLen := 0;
+   inherited init;
+   ConvertToRegular := Convert;
+end;
+
+// update process
+// mark all records in active set as old
+// read new files
+// change prices, timestamps in the active set, mark as active
+// go over the active set and move the old records to the old set
+
+
+procedure TStripReal.FetchStrip(idx : integer; Var V);
+Var nr : integer;
+begin
+   CSFile.Enter;
+   try
+   if (GetFlags(Strips[idx]) and FL_Archived) <> 0 then
+      begin
+         fileseek(ArcF, GetStart(Strips[idx]), 0);
+         nr := fileread(ArcF, V, Strips[idx].DataLen);
+      end
+   else
+      begin
+         fileseek(StripF, GetStart(Strips[idx]), 0);
+         nr := fileread(StripF, V, Strips[idx].DataLen);
+      end;
+   finally
+      CSFile.Leave;
+   end;
+end;
+
+function TStripReal.TooOld(Var Line : String) : boolean;
+Var LastListed : STring;
+begin
+   ExtractFieldByNum(Line, EnterDateField+2, LastListed);
+   result := LastListed < formatDateTime('yyyy/mm/dd', DCurrentDate - ExpireDays);
+end;
+
+
+procedure TStripReal.Archive;
+Var ArcF1 : integer;
+    EndPos : int64;
+    i, nw : integer;
+    Line, Key : String;
+begin
+   ArcF1 := FileOpen(dir1 + 'arc' + dbname, fmOpenReadWrite + fmShareDenyNone);
+   if ArcF1 = -1 then
+      ArcF1 := FileCreate(dir1 + 'arc' + dbname);
+   EndPos := fileseek(ArcF1, 0, 2);
+   for i := 0 to ParentObject.numstrip - 1 do
+     begin
+       Line := '';
+       if GetFlags(ParentObject.Strips[i]) = 0 then
+         begin
+           setlength(Line, ParentObject.Strips[i].DataLen+1);
+           ParentObject.FetchStrip(i, (@(Line[1]))^);
+           Line[ParentObject.Strips[i].DataLen+1] := #10;
+           if TooOld(Line) then
+              begin
+                 DeleteFromHash(GetKey(Line));
+                 SetFlags(ParentObject.Strips[i],  FL_Archived);
+                 SetStart(ParentObject.Strips[i], EndPos);
+                 inc(EndPos, length(Line));
+                 nw := FileWrite(ArcF1, (@Line[1])^, length(line));
+              end;
+         end;
+       if (GetFlags(ParentObject.Strips[i]) and FL_Active)  = 0 then
+          begin
+             if NumStrip >= length(Strips) then
+               begin
+                 setlength(Strips, round(NumStrip * 1.1) + 100);
+                 setlength(TimeStamps, length(Strips));
+               end;
+             Strips[NumStrip] := ParentObject.Strips[i];
+             if (GetFlags(ParentObject.Strips[i]) and FL_Archived)  = 0 then
+               begin
+                 if Line = '' then
+                    begin
+                       setlength(Line, ParentObject.Strips[i].DataLen);
+                       ParentObject.FetchStrip(i, (@(Line[1]))^);
+                    end;
+                 fileseek(StripF, StripDataSize, 0);
+                 nw := FileWrite(StripF, (@Line[1])^, length(line));
+                 SetStart(Strips[NumStrip],  StripDataSize);
+                 StripDataSize := StripDataSize + length(Line);
+                 if (i < ParentObject.KeyHashLen) and (ParentObject.KeyHash[i].ID = i) then
+                    Key := ParentObject.KeyHash[i].Key
+                 else
+                    begin
+                       Key := ParentObject.GetKey(Line);
+                    end;
+                 AddToHash(Key, NumStrip);
+               end;
+             TimeStamps[NumStrip] := ParentObject.TimeStamps[i];
+             inc(NumStrip);
+          end;
+     end;
+   FileClose(ArcF1);
+   SaveBase;
+   if ArcF = -1 then
+     ArcF := FileOpen(dir1 + 'arc' + dbname, fmOpenReadWrite + FmShareDenyNone);
+end;
+
+procedure TStripReal.SortFiles;
+  function Less(X,Y : String) : boolean;
+  begin
+     result := X < Y;
+  end;
+  procedure QuickSort(L, R: Integer);
+  var
+    I, J : Integer;
+    T, X : String;
+  begin
+    I := L;
+    J := R;
+    X := Files[(L + R) div 2];
+    repeat
+      while Less(Files[i],  X) do Inc(I);
+      while Less(X, Files[J]) do Dec(J);
+      if I <= J then
+      begin
+        T := Files[I];
+        Files[I] := Files[J];
+        Files[J] := T;
+        Inc(I);
+        Dec(J);
+      end;
+    until I > J;
+    if L < J then QuickSort(L, J);
+    if I < R then QuickSort(I, R);
+  end;
+begin
+   if length(Files) > 0 then
+     QuickSort(0, length(Files) - 1);
+end;
+
+function TStripReal.GetFileDate(Var F : String) : String;
+Var Year, Month, Day, Hour, Min, Sec : word;
+    SYear, SMonth, SDay, SHour, SMin, SSec : String;
+    D : double;
+    sp, P : integer;
+begin
+   P := 1;
+   while (p <= length(F)) and (F[p] <> '_') do
+     inc(p);
+   sp := p+1;
+   inc(p);
+   while (p <= length(F)) and (F[p] <> '_') do
+     inc(p);
+   dec(p);
+   if p <= sp then
+      begin
+        CurrentDate := formatdatetime('yyyy/mm/dd', now);
+        CurrentTime := formatdatetime('hh:nn:ss', now);
+      end
+   else
+     begin
+        p := sp;
+        syear := copy(F, p, 4);
+        smonth := copy(F, p+4, 2);
+        sday := copy(F, p+6, 2);
+        shour := copy(F, p+8, 2);
+        smin := copy(F, p+10, 2);
+        ssec := copy(F, p+12, 2);
+        year := ValStr(syear);
+        month := ValStr(smonth);
+        day := ValStr(sday);
+        hour := ValStr(shour);
+        min := ValStr(smin);
+        sec := ValStr(ssec);
+        D := EncodeDate(Year, month, Day) + ENcodeTime(Hour, Min, Sec, 0);
+        CurrentDate := formatdatetime('yyyy/mm/dd', D);
+        DCurrentDate := D;
+        CurrentTime := formatdatetime('hh:nn:ss', D);
+     end;
+end;
+
+procedure TStripReal.LoadAllFiles;
+Var i : integer;
+begin
+   if ParentObject <> nil then
+     for i := 0 to ParentObject.NumStrip - 1 do
+       SetFlags(ParentObject.Strips[i],  GetFlags(ParentObject.Strips[i]) and (not FL_Active));
+   Files := nil;
+   KeyHash := nil;
+   for i := 0 to HashMax do
+      HashTable[i] := -1;
+   ScanDir(Dir1, AddFile1);
+   SortFiles;
+   for i := 0 to length(Files)-1 do
+      begin
+        GetFileDate(Files[i]);
+        AddFile(Files[i]);
+      end;
+   if ParentObject <> nil then
+     Archive;
+   for i := 0 to length(Files)-1 do
+      begin
+        DeleteFile(Pchar(Files[i]));
+      end;
+end;
+
+procedure TStripReal.AddStrip(Var Lat, Lon: String; Line : String);
+Var  nw : integer;
+     Start : int64;
+     Key, OldLine : String;
+     LastUpdate, ID : integer;
+begin
+   Key := GetKey(Line);
+   LastUpdate := ValDate(CurrentDate);
+   if ParentObject <> nil then
+      begin
+         ID := ParentObject.FindNotArchivedStripByKey(Key);
+      end;
+{   if Key = '3101890AK' then
+     Key := '3101890AK';}
+   if (ParentObject <> nil) and (ID >= 0) then
+      begin
+        SetFlags(ParentObject.Strips[ID], GetFlags(ParentObject.Strips[ID]) or FL_Active);
+        OldLine := ParentObject.GetStrip(ID);
+        AddPricesandStamps(Line, OldLine, LastUpdate);
+      end
+   else
+      AddStamp(Line);
+  if MergeObj <> nil then
+    begin
+       MergeObj.AddStrip(Lat, Lon, MergeObj.MapFields(Line, self));
+       exit;
+    end;
+  ID := FindNotArchivedStripByKey(Key);
+  if ID >= 0 then
+      begin
+        OldLine := GetStrip(ID);
+        if not AddPricesandStamps(Line, OldLine, LastUpdate) then
+           exit;
+      end;
+  Line := Line + #10;
+  if ID < 0 then
+    begin
+      if NumStrip >= length(Strips) then
+        begin
+          setlength(Strips, round(NumStrip * 1.1) + 100);
+          setlength(TimeStamps, length(Strips));
+        end;
+      ID := NumStrip;
+      inc(NumStrip);
+      AddToHash(Key, ID);
+    end;
+  Start := StripDataSize;
+  Strips[ID].X := ReadDouble(Lon);
+  Strips[ID].Y := ReadDouble(Lat);
+  TimeStamps[ID] := LastUpdate;
+  SetStart(Strips[ID],  Start);
+  Strips[ID].DataLen := length(Line)-1;
+  if  UseRam then
+    begin
+      if StripDataSize > length(StripData) then
+        setlength(StripData, round(StripDataSize * 1.5) + 10);
+      move((@Line[1])^, (@StripData[Start])^, length(line));
+    end
+  else
+    begin
+      if StripDataSize = 0 then
+         begin
+//           StripF := FileCreate(Dir1+DBName);
+           StripF := FileOpen(Dir1+DBName, fmOpenReadWrite or FmShareDenyNone);
+           if StripF = -1 then
+             StripF := FileCreate(Dir1+DBName);
+         end;
+//      nw := FileWrite(StripF, (@Line[1])^, length(line))
+      fileseek(StripF, StripDataSize, 0);
+      nw := FileWrite(StripF, (@Line[1])^, length(line));
+    end;
+   StripDataSize := StripDataSize + length(Line);
+end;
+
+
+procedure TStripReal.AddFile1(Name : String);
+begin
+   if FileExt <> '' then
+     if TheFileExt(Upstr(Name)) <> Upstr(FileExt) then
+       exit;
+   setlength(Files, length(Files) + 1);
+   Files[length(Files) - 1] := name;
+end;
+
+function  TStripReal.GetKey(Var S : String) : String;
+Var State, MLS : String;
+begin
+   ExtractFieldByNum(S, MLSField, MLS);
+   ExtractFieldByNum(S, SkipState+1, State);
+   Result := MLS + State;
+end;
+
+function  TStripReal.GetStrip(ID : integer) : String;
+begin
+   setlength(Result, Strips[ID].DataLen);
+   FetchStrip(ID, (@(Result[1]))^);
+end;
+
+function  HashFun(Var S  : String) : integer;
+VAr i : integer;
+begin
+   Result := 0;
+   for i := 1 to length(S) do
+      Result := Result + ord(S[i]) shl (i mod 8);
+   if Result < 0 then
+      Result := -Result;
+   Result := Result Mod HashMax;
+end;
+
+function  TStripReal.FindNotArchivedStripByKey(Var Key : String) : integer;
+Var H : integer;
+begin
+   H := HashTable[HashFun(Key)];
+   while H >= 0 do
+     if KeyHash[H].Key = Key then
+      begin
+         Result := KeyHash[H].ID;
+         exit;
+      end
+     else
+        H := KeyHash[H].Next;
+   Result := -1;
+end;
+
+procedure TStripReal.AddToHash(Var Key : String; ID : integer);
+Var H : integer;
+begin
+   H := HashFun(Key);
+   inc(KeyHashLen);
+   if KeyHashLen >= length(KeyHash) then
+      setlength(KeyHash, round(length(KeyHash) *1.3) + 10);
+   KeyHash[KeyHashLen-1].Key := Key;
+   KeyHash[KeyHashLen-1].ID := ID;
+   KeyHash[KeyHashLen-1].Next := HashTable[H];
+   HashTable[H] := KeyHashLen-1;
+end;
+
+procedure TStripReal.DeleteFromHash(Key : String);
+Var PH, H : integer;
+begin
+   H := HashTable[HashFun(Key)];
+   PH := H;
+   while H >= 0 do
+     if KeyHash[H].Key = Key then
+      begin
+         if PH = H then
+           HashTable[HashFun(Key)] := KeyHash[H].Next
+         else
+           KeyHash[PH].Next := KeyHash[H].Next;
+         exit;
+      end
+     else
+        begin
+          PH := H;
+          H := KeyHash[H].Next;
+        end;
+end;
+
+procedure TStripReal.SaveHash;
+Var i : integer;
+    F : TFileIO;
+begin
+   F := TFileIo.CReate(Dir1 + 'Hash.tab', true, false);
+   F.WriteInt(length(KeyHash));
+   for i := 0 to length(KeyHash) - 1 do
+       begin
+          F.WriteString(KeyHash[i].Key);
+          F.WriteInt(KeyHash[i].ID);
+       end;
+   F.Free;
+end;
+
+procedure TStripReal.LoadHash;
+Var Max, i, ID : integer;
+    Key : String;
+    F : TFileIO;
+begin
+   F := TFileIo.CReate(Dir1 + 'Hash.tab');
+   for i := 0 to HashMax do
+     HashTable[i] := -1;
+   Max := F.REadInt;
+   setlength(KeyHash, Max);
+   for i := 0 to Max - 1 do
+       begin
+          F.ReadString(Key);
+          ID := F.ReadInt;
+          AddToHash(Key, ID);
+       end;
+   F.Free;
+end;
+
+procedure TStripReal.LoadBase;
+Var S, nr : integer;
+    F : File;
+begin
+   LoadHash;
+   Interf.SetStatus('Loading database ' + DBName);
+   Interf.SetStatus('Using DISK storage for ' + DBName);
+   StripData := '';
+   StripF := FileOpen(Dir1+DBName, fmOpenReadWrite + FmShareDenyNone);
+   ArcF := FileOpen(dir1 + 'arc' + dbname, fmOpenReadWrite + FmShareDenyNone);
+   assignfile(F, Dir1 + TheFileName(DBNAME) + '.idx');
+   reset(F, 1);
+   S := FileSize(F);
+   NumStrip := S div sizeof(TStripRec);
+   setlength(Strips, NumStrip);
+   setlength(TimeStamps, NumStrip);
+   blockread(F, (@Strips[0])^, NumStrip * sizeof(TStripRec), nr);
+   closefile(F);
+   assignfile(F, Dir1 + TheFileName(DBNAME) + '.tim');
+   reset(F, 1);
+   blockread(F, (@TimeStamps[0])^, NumStrip * sizeof(integer), nr);
+   closefile(F);
+   Calibrate;
+end;
+
+procedure TStripReal.SaveBase;
+Var nw : integer;
+    F : File;
+begin
+   FileClose(StripF);
+   StripF := FileOpen(Dir1+DBName, fmOpenReadWrite + FmShareDenyNone);
+   SaveHash;
+   assignfile(F, Dir1 + TheFileName(DBNAME) + '.idx');
+   rewrite(F, 1);
+   blockwrite(F, (@Strips[0])^, NumStrip * sizeof(TStripRec), nw);
+   closefile(F);
+   assignfile(F, Dir1 + TheFileName(DBNAME) + '.tim');
+   rewrite(F, 1);
+   blockwrite(F, (@TimeStamps[0])^, NumStrip * sizeof(integer), nw);
+   closefile(F);
+end;
+
+function TStripReal.GetPrice(Var LIne : String) : String;
+begin
+  ExtractFieldByNum(Line, PriceField, Result);
+end;
+
+procedure TStripReal.Convert(Var Line : String);
+Var p : integer;
+begin
+   P := 1;
+   SkipFields(Line, EnterDateField-1, P);
+   LIne := copy(Line, 1, P-2);
+end;
+
+function TStripReal.AddPricesandStamps(Var Line, OldLine : string; Var LastUpdate : integer) : boolean;
+// Line + TAB + ENTER_DATE + TAB + ENTER_TIME + TAB + LASTLISTED_DATE + TAB + {DATE + TAB + PRICE}
+Var i, P, PriceCount : integer;
+    SPrice, SDate, STime, EnterDate, EnterTime, LastListed : String;
+    NewLine, Prices, Dates : array of String;
+begin
+   P := 1;
+   SkipFields(OldLine, EnterDateField-1, P);
+   ExtractField(OldLine, EnterDate, P);
+   ExtractField(OldLine, EnterTime, P);
+   ExtractField(OldLine, LastListed, P);
+   PriceCount := 0;
+   Dates := nil;
+   Prices := nil;
+   while true do
+      begin
+         ExtractField(OldLine, SDate, P);
+         ExtractField(OldLine, SPrice, P);
+         if OldLine[p] = '}' then
+            break;
+         inc(PriceCount);
+         Setlength(Dates, PriceCount);
+         Setlength(Prices, PriceCount);
+         Dates[PriceCount-1] := SDate;
+         Prices[PriceCount-1] := SPrice;
+      end;
+   NewLIne := EnterDate + TAB + EnterTime + TAB + CurrentDate + TAB + '{';
+   if (PriceCount = 0) or ((Prices[PriceCount-1] <> GetPrice(Line)) and (Dates[0] < CurrentDate)) then
+      begin
+         NewLine := NewLine + CurrentDate + TAB + GetPrice(Line) + TAB;
+         Result := true;
+      end
+   else
+      begin
+         LastUpdate := ValDate(Dates[0]);
+         Result := false;
+      end;
+   for i := 0 to PriceCOunt - 1 do
+      begin
+         NewLine := NewLine + Dates[i] + TAB + Prices[i] + TAB;
+      end;
+   if NewLine[length(LIne)] = TAB then
+     NewLine[length(Line)] := '}'
+   else
+     NewLine := Line + '}';
+   LIne := NewLine + TAB + Line;
+end;
+
+procedure TStripReal.AddStamp(Var Line : String);
+begin
+   LIne := CurrentDate + TAB + CurrentTime + TAB + CurrentDate + TAB +
+     '{' + CurrentDate + TAB + GetPrice(Line) + '}' + TAB + LIne;
+end;
+
+function  TStripReal.FindByKey(Var Key : String) : String;
+Var ID : integer;
+begin
+  ID := FindNotArchivedStripByKey(Key);
+  if ID >= 0 then
+    begin
+       setlength(Result, Strips[ID].DataLen);
+       FetchStrip(ID, (@(result[1]))^);
+    end
+  else
+    Result := '';
+end;
+
+
+end.

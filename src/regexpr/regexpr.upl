@@ -1,0 +1,55 @@
+[DSP upload]
+File Name=regexpr.zip
+Replace File=regexpr.zip
+File Status=Freeware
+Full Source Included=Y
+Delphi 1.0x=N
+Delphi 2.0x=Y
+Delphi 3.0x=Y
+Delphi 4.0x=Y
+Delphi 5.0x=Y
+C++ Builder 1.0x=N
+C++ Builder 3.0x=Y
+C++ Builder 4.0x=Y
+Version=0.942
+count=16
+1=TRegExpr is a powerfull tool for template-based checking of
+2=user input string fields (DBMS, web-based applications, etc),
+3=text search/substitution, egrep like utils and so on.
+4=
+5=You can easily check e-mail adress syntax, extract phone number
+6=or ZIP-code from unformatted text or any necessary information
+7=from web-pages and all you can imagine!
+8=Rules (templates) can be changed without program recompilation !
+9=
+10=This freeware library is a extended Delphi-port of Henry Spencer
+11=V8-routins for working with subset of Perl Regular Expressions.
+12=
+13=Full source code in object pascal included. No DLL needed !
+14=
+15=Help available in English, Russian, Bulgarian, German and French
+16=at my home page http://anso.da.ru/ or http://anso.virtualave.net/
+Note=
+Additional info=
+Category=Classes and units
+Platform=
+Group=Component/Code
+[Versions available]
+Delphi 1.0x=
+Delphi 2.0x=
+Delphi 3.0x=
+Delphi 4.0x=
+Delphi 5.0x=
+C++ Builder 1.0x=
+C++ Builder 3.0x=
+C++ Builder 4.0x=
+[DSP Support]
+DSP Support=Y
+[Uploader_1]
+Author name=Andrey Sorokin
+Contact=
+Author E-mail=anso@mail.ru
+Author URL=http://anso.virtualave.net
+count=0
+Author Section=
+UpdateDSP=N

@@ -1,0 +1,2 @@
+SET NDD7=C:\Temp\Bor\Delphi7
+SET NDWINSYS=C:\WINNT\system32

@@ -1,0 +1,448 @@
+object WebInterf: TWebInterf
+  Left = 450
+  Top = 237
+  Width = 640
+  Height = 438
+  Caption = 'y'
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  Icon.Data = {
+    0000010001002020100000000000E80200001600000028000000200000004000
+    0000010004000000000080020000000000000000000000000000000000000000
+    000000008000008000000080800080000000800080008080000080808000C0C0
+    C0000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF009999
+    99999999999999999999999999999FFFFFFFFFFFFF88888888888FFFFFF997FF
+    FFFFFFFF888888888888888FFFF9977FFFFFFFF8444C444888888888FFF99777
+    FFFFFF4444444444488888888FF997777FFF44444C4C4C4C4C48888888F99777
+    77F44444443444444444888888F99777774C444C433C4C4C4C4C488888899777
+    74444444C334C444C444C48888899777744C4C4C433C4C4C4C4C4C8888899777
+    444444C43334CCC4C4C4C44888899777444C4C43333C4C4C4C4C4C3888899774
+    4444C4433333CCCCC4CCC433888997744C4C4C4333333C4C4C4C4C3388899774
+    4444C43333333CCCCCCCC43388899774444C4C333333CC4CCC4C4C3388899774
+    4444C433333CCCCCCCC33333888997744C4C4C334C4C4CCCCCC3333388899774
+    44444433CCCC3CCCCCC3333388F99777444C4C433C433C4CCC4C333888F99777
+    4444343333333CCCCCCCC4C88FF99777744C333333333C4C4C433C88FFF99777
+    7444333333333CCCCCC3348FFFF99777774C333333333C4C3C433FFFFFF99777
+    7774333333C333CC3433FFFFFFF9977777774333334C333C4C377FFFFFF99777
+    77777744433444C4477777FFFFF99777777777774C4C4C477777777FFFF99777
+    777777777777777777777777FFF997777777777777777777777777777FF99777
+    77777777777777777777777777F9999999999999999999999999999999990000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    0000000000000000000000000000000000000000000000000000000000000000
+    000000000000000000000000000000000000000000000000000000000000}
+  OldCreateOrder = False
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Memo1: TMemo
+    Left = 81
+    Top = 118
+    Width = 551
+    Height = 293
+    Align = alClient
+    Color = clNavy
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clYellow
+    Font.Height = -8
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    Lines.Strings = (
+      'Initializing....')
+    ParentFont = False
+    ScrollBars = ssBoth
+    TabOrder = 0
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 632
+    Height = 118
+    Align = alTop
+    TabOrder = 1
+    DesignSize = (
+      632
+      118)
+    object Label6: TLabel
+      Left = 3
+      Top = 2
+      Width = 83
+      Height = 20
+      Caption = 'Requests:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Status1: TLabel
+      Left = 173
+      Top = 4
+      Width = 160
+      Height = 20
+      Caption = 'Loading please wait'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object NObjects: TLabel
+      Left = 86
+      Top = 42
+      Width = 44
+      Height = 13
+      Anchors = [akLeft, akBottom]
+      Caption = 'Objects'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label7: TLabel
+      Left = 414
+      Top = 62
+      Width = 75
+      Height = 13
+      Anchors = [akLeft, akBottom]
+      Caption = 'Server Console:'
+    end
+    object Requests: TLabel
+      Left = 98
+      Top = 5
+      Width = 9
+      Height = 16
+      Caption = '0'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label1: TLabel
+      Left = 5
+      Top = 86
+      Width = 43
+      Height = 20
+      Caption = 'Peer:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object PeerStatus: TLabel
+      Left = 321
+      Top = 89
+      Width = 27
+      Height = 20
+      Caption = 'Init'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Hostlab: TLabel
+      Left = 461
+      Top = 89
+      Width = 44
+      Height = 20
+      Caption = 'Host:'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object NVertixes: TLabel
+      Left = 5
+      Top = 20
+      Width = 47
+      Height = 20
+      Caption = 'NVert'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object NPoint: TLabel
+      Left = 5
+      Top = 38
+      Width = 54
+      Height = 20
+      Caption = 'NPoint'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object BkpBtn: TButton
+      Left = 95
+      Top = 56
+      Width = 75
+      Height = 24
+      Anchors = [akLeft, akTop, akBottom]
+      Caption = 'Backup'
+      TabOrder = 0
+      OnClick = BkpBtnClick
+    end
+    object Logging: TCheckBox
+      Left = 498
+      Top = 34
+      Width = 57
+      Height = 54
+      Anchors = [akLeft, akTop, akBottom]
+      Caption = 'Logging'
+      TabOrder = 1
+      OnClick = LoggingClick
+    end
+    object Start: TButton
+      Left = 227
+      Top = 55
+      Width = 121
+      Height = 26
+      Anchors = [akLeft, akTop, akBottom]
+      Caption = 'START'
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 2
+      OnClick = StartClick
+    end
+    object MergeKeys: TButton
+      Left = 173
+      Top = 55
+      Width = 43
+      Height = 24
+      Anchors = [akLeft, akTop, akBottom]
+      Caption = 'Keys'
+      TabOrder = 3
+      OnClick = MergeKeysClick
+    end
+    object Rebuild: TButton
+      Left = 2
+      Top = 57
+      Width = 75
+      Height = 24
+      Anchors = [akLeft, akTop, akBottom]
+      Caption = 'Rebuild'
+      TabOrder = 4
+      OnClick = RebuildClick
+    end
+    object Dump: TButton
+      Left = 432
+      Top = 0
+      Width = 49
+      Height = 25
+      Caption = 'Dump'
+      TabOrder = 5
+      OnClick = DumpClick
+    end
+    object Port: TMaskEdit
+      Left = 362
+      Top = 60
+      Width = 80
+      Height = 21
+      TabOrder = 6
+      Text = '80'
+    end
+    object Log2: TCheckBox
+      Left = 562
+      Top = 56
+      Width = 95
+      Height = 54
+      Anchors = [akLeft, akTop, akBottom]
+      Caption = 'Log to file'
+      TabOrder = 7
+      OnClick = Log2Click
+    end
+    object Playlog: TButton
+      Left = 648
+      Top = 48
+      Width = 49
+      Height = 25
+      Caption = 'Play log'
+      TabOrder = 8
+      OnClick = PlaylogClick
+    end
+    object VerifyBtn: TButton
+      Left = 560
+      Top = 0
+      Width = 49
+      Height = 25
+      Caption = 'Verify'
+      TabOrder = 9
+      OnClick = VerifyBtnClick
+    end
+    object Memchk: TButton
+      Left = 632
+      Top = 0
+      Width = 75
+      Height = 25
+      Caption = 'Memchk'
+      TabOrder = 10
+      OnClick = MemchkClick
+    end
+    object Memsort: TButton
+      Left = 632
+      Top = 24
+      Width = 75
+      Height = 25
+      Caption = 'Memsort'
+      TabOrder = 11
+      OnClick = MemsortClick
+    end
+    object StreetIdx: TButton
+      Left = 148
+      Top = 25
+      Width = 75
+      Height = 25
+      Anchors = [akLeft, akTop, akBottom]
+      Caption = 'StreetIdx'
+      TabOrder = 12
+      OnClick = StreetIdxClick
+    end
+    object PeerName: TMaskEdit
+      Left = 50
+      Top = 87
+      Width = 59
+      Height = 21
+      TabOrder = 13
+      Text = 'stree2'
+    end
+    object StartCluster: TButton
+      Left = 120
+      Top = 87
+      Width = 86
+      Height = 23
+      Anchors = [akLeft, akTop, akBottom]
+      Caption = 'run node'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 14
+      OnClick = StartClusterClick
+    end
+    object StopCluster: TButton
+      Left = 216
+      Top = 87
+      Width = 91
+      Height = 23
+      Anchors = [akLeft, akTop, akBottom]
+      Caption = 'stop node'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGreen
+      Font.Height = -16
+      Font.Name = 'MS Sans Serif'
+      Font.Style = [fsBold]
+      ParentFont = False
+      TabOrder = 15
+      OnClick = StopClusterClick
+    end
+    object HostName: TMaskEdit
+      Left = 506
+      Top = 90
+      Width = 59
+      Height = 21
+      TabOrder = 16
+      Text = 'stree1'
+    end
+  end
+  object StripObjects: TListBox
+    Left = 0
+    Top = 118
+    Width = 81
+    Height = 293
+    Align = alLeft
+    ItemHeight = 13
+    TabOrder = 2
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 100
+    OnTimer = Timer1Timer
+    Left = 48
+    Top = 240
+  end
+  object HTTPServer: TIdHTTPServer
+    Bindings = <>
+    CommandHandlers = <>
+    Greeting.NumericCode = -1
+    ListenQueue = 120
+    MaxConnectionReply.NumericCode = 0
+    ReplyExceptionCode = 0
+    ReplyTexts = <>
+    ReplyUnknownCommand.NumericCode = 0
+    ThreadMgr = IdThreadMgrPool1
+    ParseParams = False
+    SessionTimeOut = 120000
+    OnCommandGet = HTTPServerCommandGet
+    Left = 48
+    Top = 200
+  end
+  object IdThreadMgrPool1: TIdThreadMgrPool
+    PoolSize = 100
+    Left = 92
+    Top = 200
+  end
+  object Timer2: TTimer
+    Enabled = False
+    Interval = 10000
+    OnTimer = Timer2Timer
+    Left = 96
+    Top = 240
+  end
+  object OpenDialog1: TOpenDialog
+    FileName = '*.log'
+    Filter = 'Log|*.log'
+    Left = 504
+    Top = 8
+  end
+  object GTable: TDbf
+    Indexes = <>
+    Left = 384
+    Top = 16
+  end
+  object IdHTTP1: TIdHTTP
+    MaxLineAction = maException
+    ReadTimeout = 0
+    AllowCookies = True
+    ProxyParams.BasicAuthentication = False
+    ProxyParams.ProxyPort = 0
+    Request.ContentLength = -1
+    Request.ContentRangeEnd = 0
+    Request.ContentRangeStart = 0
+    Request.ContentType = 'text/html'
+    Request.Accept = 'text/html, */*'
+    Request.BasicAuthentication = False
+    Request.UserAgent = 'Mozilla/3.0 (compatible; Indy Library)'
+    HTTPOptions = [hoForceEncodeParams]
+    Left = 48
+    Top = 160
+  end
+end

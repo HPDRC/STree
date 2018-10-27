@@ -1,0 +1,33 @@
+== How to load new navteq datasets into stree
+
+1. Login to: 131.94.131.211:4000(Administrator/HPDRC4002)
+
+2. Goto D:\Stree\streets, create a new cmd script (modify the path accordingly):
+@echo off
+
+FOR /D %%G in ("\\atlantic\atlantic-01\staged-data\navteq\2017-01\*") DO (
+Echo copying %%G
+xcopy %%G\Streets.* navteq_new\%%G\
+)
+
+3. Check: the server can access \\atlantic\atlantic-01\ using user ad\gallery. 
+Check: there is enough disk space for the copying
+Execute the script
+Then delete all folders with characters (keep only folders with two numbers)
+
+4. Delete (backup) D:\Stree\streets\AllStates.*
+Then run D:\Stree\streeweb.exe
+
+5. streeweb.exe will 
+    A. Generate Streets.NAV files under all D:\Stree\streets\navstreets\* folders
+    B. Merge all NAV files into D:\Stree\streets\AllStates.NAV
+    C. Merge all Tiger data into AllStates.MAP (can use old MAP file directly)
+    D. Merge AllStates.NAV with AllStates.MAP and generate AllStates.MER
+    E. Generate AllStates.idx
+
+    131.94.131.211 (old stree1) is really slow and could throw exception at any time.
+    If it does, do the following:
+        Copy D:\Stree\streets\navstreets\*\Streets.NAV to stree3.cs.fiu.edu(administrator/HPDRC5002) same folder, and run streeweb from stree3
+    This is because the running environment on other machines are broken and only old stree1 can generate Streets.NAV properly. So step A must be done on old stree1
+    
+6. After AllStates.NAV AllStates.MAP AllStates.MER AllStates.idx are all ready, copy them to stree4 and restart 80 port

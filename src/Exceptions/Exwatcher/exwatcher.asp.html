@@ -1,0 +1,290 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Advanced exception handler to find the exception source file name, call stack and all other related information </title>
+<meta name="author" content="Clever Components">
+<meta name="description" content="Clever Components - Implementing the Future. VC++, .NET, Delphi and C++ Builder RAD VCL components for fast easy and painless software development.">
+<meta name="keywords" content="asp,asp script,download,update,live, live update, web update, webupdate,components,Delphi,C++ Builder,VCL,clever internet components,send,beta,internet,collections,library,RAD,fast,Non Data Aware,sources,internet resources,HTTP,HTTPS,URL,asynchronously,demo,help,samples "><script language="JavaScript1.2" type="text/javascript">
+					if (navigator.appName == "Netscape")
+						style_to_use=("/" + "CleverSiteNN.css");
+					else
+						style_to_use=("/" + "CleverSiteIE.css");
+					document.write('<link rel="stylesheet" href="' + style_to_use + '" type="text/css">');
+				</script><noscript>
+<link rel="stylesheet" type="text/css" href="/CleverSiteIE.css">
+</noscript><script language="JavaScript1.2" type="text/javascript" src="/Server/CleverScripts.js"></script></head>
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0"><script language="JavaScript1.2" type="text/javascript">
+					clPreLoadImages("/");
+				</script><table width="100%" border="0">
+<tr><td>
+<center>
+<table class="clsMainMenuImg" width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr valign="top">
+<td rowspan="4" width="30%" height="92"><a href="http://www.clevercomponents.com"><img id="imgSiteLogo" name="imgSiteLogo" border="0" width="423" height="92" alt="Clever Components" src="/images/logo.jpg"></a></td>
+<td height="25" width="50%" background="/images/slogan_above_filler.jpg"><img width="78" height="25" alt="" src="/images/slogan_above.jpg"><img width="81" height="25" alt="" src="/images/slogan_above_1.jpg"></td>
+<td align="right" height="25" width="20%" background="/images/slogan_above_filler.jpg">
+<table align="right" width="135" cellspacing="0" cellpadding="0" border="0">
+<tr valign="top">
+<td width="29" height="25"><img width="29" height="25" alt="" border="0" src="/images/utils_left.jpg"></td>
+<td width="43" height="25"><a href="/home/news.asp"><img border="0" onmouseover="clHiliteImg(this);" onmouseout="clNormalImg(this);" alt="Home" width="43" height="25" src="/images/utils_home.jpg"></a></td>
+<td width="30" height="25"><a href="/support/faqs.asp"><img border="0" onmouseover="clHiliteImg(this);" onmouseout="clNormalImg(this);" alt="FAQs" width="30" height="25" src="/images/utils_faqs.jpg"></a></td>
+<td width="33" height="25"><a href="/sitemap/sitemap.asp"><img border="0" onmouseover="clHiliteImg(this);" onmouseout="clNormalImg(this);" alt="Site Map" width="33" height="25" src="/images/utils_map.jpg"></a></td>
+</tr>
+</table>
+</td>
+</tr>
+<tr valign="top">
+<td align="left" height="34" width="70%" colspan="2" background="/images/slogan_right_filler.jpg"><img id="imgSiteMotto" name="imgSiteMotto" width="255" height="34" alt="Implementing The Future" src="/images/slogan_text.jpg"></td>
+</tr>
+<tr>
+<td width="70%" height="21" class="clsMainMenu" colspan="2" align="right" background="/images/menu_filler.jpg">
+<table cellspacing="0" cellpadding="0" border="0">
+<tr>
+<td align="center" class="clsMainMenu" width="10">|</td>
+<td align="center"><a class="clsMainMenuItem" href="/products/index.asp">Products</a></td>
+<td align="center" class="clsMainMenu" width="10">|</td>
+<td align="center"><a class="clsMainMenuItem" href="/articles/index.asp">Articles</a></td>
+<td align="center" class="clsMainMenu" width="10">|</td>
+<td align="center"><a class="clsMainMenuItem" href="/downloads/index.asp">Downloads</a></td>
+<td align="center" class="clsMainMenu" width="10">|</td>
+<td align="center"><a class="clsMainMenuItem" href="/order/index.asp">Order</a></td>
+<td align="center" class="clsMainMenu" width="10">|</td>
+<td align="center"><a class="clsMainMenuItem" href="/support/index.asp">Support</a></td>
+<td align="center" class="clsMainMenu" width="10">|</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr valign="top">
+<td align="left" height="12" width="70%" colspan="2" background="/images/menu_under_filler.jpg"><img width="78" height="12" alt="" src="/images/menu_under_1.jpg"></td>
+</tr>
+<tr><td height="2" colspan="4"><img height="1" width="1" alt="" src="/images/1x1.gif"></td></tr>
+</table>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr><td colspan="2" background="/images/dot_submenu.jpg"><img height="1" width="1" alt="" src="/images/1x1.gif"></td></tr>
+<tr><td colspan="2"><img height="1" width="1" alt="" src="/images/1x1.gif"></td></tr>
+<tr>
+<td class="clsSubMenu" height="19">&nbsp;You are here:&nbsp;<a class="clsSubMenuCurrentItem" href="../../home/news.asp">Home</a>&nbsp;&gt;&nbsp;<a class="clsSubMenuCurrentItem" href="../index.asp">Articles</a>&nbsp;&gt;&nbsp;Advanced exception handler to find the exception information</td>
+<td class="clsSubMenu" height="19" align="right">&nbsp;</td>
+</tr>
+<tr><td colspan="2"><img height="1" width="1" alt="" src="/images/1x1.gif"></td></tr>
+<tr><td colspan="2" background="/images/dot_submenu.jpg"><img height="1" width="1" alt="" src="/images/1x1.gif"></td></tr>
+</table>
+<table width="100%" cellspacing="0" cellpadding="0" border="0">
+<tr valign="top"><td width="2%"><img height="1" width="1" alt="" src="/images/1x1.gif"></td>
+<td width="96%">
+<table width="100%" cellspacing="0" cellpadding="0" border="0" align="center">
+<tr><td width="100%" valign="top"><br><table border="0" cellspacing="1" cellpadding="0" width="100%">
+<tr><td class="clsPageTitle">
+<h1 class="clsPageTitle">Advanced exception handler to find the exception source file name, call stack and all other related information </h1>
+</td></tr>
+<tr><td class="clsPageTitleDelim" height="1"><img height="1" width="1" alt="" src="/images/1x1.gif"></td></tr>
+<tr><td height="10"><img height="1" width="1" alt="" src="/images/1x1.gif"></td></tr>
+</table>
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+<tr><td>
+<p class="clsParagraphText">This article describes how to replace the standard Delphi exception handlers with advanced ones in order to get more control over all errors occured during run-time execution. It is possible to collect very detailed information about all occured exceptions and save this information for later use without any interference with end-user. Such feature gives you the ultimate power and ability to track all exceptions down to the source file name, function name and code line number where exception was raised so you can identify the possible bugs or problems in much more convenient and effective way.</p>
+<p class="clsParagraphText">We provide the following downloads for your convenience:</p>
+<p class="clsParagraphText">
+<ul class="clsParagraphText">
+<li><b><a border="0" hspace="0" href="ExWatcher.zip">ExWatcher.zip</a></b>&nbsp;- an archive with ExWatcher component<b></b></li>
+<li><b><a border="0" hspace="0" href="Demo.zip">Demo.zip</a></b>&nbsp;- an archive with source code for the sample program<b></b></li>
+</ul>
+</p>
+<p class="clsParagraphText"><a name="-1"></a><h2 class="clsParagraphText"> Abstract </h2>
+</p>
+<p class="clsParagraphText">When your application raises an exception it provides some textual (usually by showing an exception dialog with some description in it) information about exception occurred. Usually this information is not enough for analysing and locating the problem. When your program fails you definitely must find out where and why the problem occurred. So you need the most detailed information about all procedure calls (their names, source lines, CPU registers and so on) led the application failure.</p>
+<p class="clsParagraphText"><img src="pict.gif" width="577" height="271"></p>
+<p class="clsParagraphText">If you are using safe-call procedures in your program (e.g. in case of using ActiveX controls), Delphi does not set-up COM error info for any system exception - usually all you get is just the E_FAIL result code. In this article we also provided a simple method for handling such errors too.</p>
+<p class="clsParagraphText"><a name="-1"></a><h2 class="clsParagraphText"> Write your own exception handler. </h2>
+</p>
+<p class="clsParagraphText">The Microsoft Operation Systems family has very handy engine which will help us to do a job - the Structured Exception Handling (SEH). It allows you to register your own exception handler which will be called by OS if any exception raised. If you want to write down the call stack or collect the values of the CPU registers, you will find that it is not possible because of the standard Delphi exception handles declared in the System.pas unit hides all desired information. To work around this problem you have to replace the standard Delphi handlers with your own ones. In order to replace a handler, we have to look through an exception handler sequence pointed by FS register for Delphi handler (for example, the _ExceptHandler procedure is the second item within the exception handler list).</p>
+<p class="clsParagraphText">The easiest way to do that is to write few code lines in assembler:</p>
+<p class="clsParagraphText">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+<tr><td>
+<table class="clsOuterTable" border="0" cellspacing="0" cellpadding="0" width="100%">
+<tr><td>
+<table border="0" cellspacing="1" cellpadding="4" width="100%">
+<tr align="left" class="clsTableTd">
+<td class="clsTableTd" width="100%">mov eax, fs:[0] <br>mov eax, [eax].TExcFrame.desc </td>
+</tr>
+</table>
+</td></tr>
+</table>
+</td></tr>
+</table>
+</p>
+<p class="clsParagraphText">Now eax points to the first code byte of the code of the desired exception handler. Next step we saving an address of old (Delphi original) handler:</p>
+<p class="clsParagraphText">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+<tr><td>
+<table class="clsOuterTable" border="0" cellspacing="0" cellpadding="0" width="100%">
+<tr><td>
+<table border="0" cellspacing="1" cellpadding="4" width="100%">
+<tr align="left" class="clsTableTd">
+<td class="clsTableTd" width="100%">mov ecx, cHackSize ; 11 bytes <br>mov esi, eax ; eax points to handler being copied <br>mov edi, edx ; edx points to place where copied bytes will be stored <br>rep movsb <br>... </td>
+</tr>
+</table>
+</td></tr>
+</table>
+</td></tr>
+</table>
+</p>
+<p class="clsParagraphText">Finally we replacing first bytes with the JMP command:</p>
+<p class="clsParagraphText">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+<tr><td>
+<table class="clsOuterTable" border="0" cellspacing="0" cellpadding="0" width="100%">
+<tr><td>
+<table border="0" cellspacing="1" cellpadding="4" width="100%">
+<tr align="left" class="clsTableTd">
+<td class="clsTableTd" width="100%">VirtualQuery(pProc, mbi, sizeof(mbi)); <br>VirtualProtect(mbi.BaseAddress, mbi.RegionSize, PAGE_EXECUTE_READWRITE, OldProtect); <br>... <br>mov eax, pProc ; pProc points to handler being replaced <br>mov ebx, pNewProc ; pNewProc points to a new handler <br>mov byte ptr [eax], $E9 ;jmp instruction <br>sub ebx, eax <br>sub ebx, 5 ;sizeof(jmp xxx) <br>mov dword ptr [eax + 1], ebx <br>... </td>
+</tr>
+</table>
+</td></tr>
+</table>
+</td></tr>
+</table>
+</p>
+<p class="clsParagraphText">So, we placed the 'jmp pNewProc' command over the old handler code.</p>
+<p class="clsParagraphText">Because the code segment is write-protected you should use the VirtualProtect function to erase and then restore this protection.</p>
+<p class="clsParagraphText">Next step will implement the desired exceptions handlers. They can look like:</p>
+<p class="clsParagraphText">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+<tr><td>
+<table class="clsOuterTable" border="0" cellspacing="0" cellpadding="0" width="100%">
+<tr><td>
+<table border="0" cellspacing="1" cellpadding="4" width="100%">
+<tr align="left" class="clsTableTd">
+<td class="clsTableTd" width="100%">procedure clHandleAnyException; <br>asm <br>&nbsp;&nbsp;&nbsp;lea eax, pOldHandleAnyExceptionCode <br>&nbsp;&nbsp;&nbsp;push eax <br>&nbsp;&nbsp;&nbsp;push [ebp + 8] <br>&nbsp;&nbsp;&nbsp;push [ebp + 16] <br>&nbsp;&nbsp;&nbsp;call clExWatcherProcImpl <br>&nbsp;&nbsp;&nbsp;pop eax <br>&nbsp;&nbsp;&nbsp;jmp eax <br>end; <br> <br>procedure clExWatcherProcImpl(ExcContext: PContext; ExcRecord: PExceptionRecord); stdcall; <br>begin <br>&nbsp;&nbsp;&nbsp;if (ExcRecord^.ExceptionFlags and cUnwindInProgress = 0) then <br>&nbsp;&nbsp;&nbsp;begin <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (ExcRecord^.ExceptionCode &lt;&gt; cDelphiException) then <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DoSystemException(..); <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end else <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DoDelphiException(..); <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end; <br>&nbsp;&nbsp;&nbsp;end; <br>end; </td>
+</tr>
+</table>
+</td></tr>
+</table>
+</td></tr>
+</table>
+</p>
+<p class="clsParagraphText">By checking the values of the TExceptionRecord structure passed in the ExcRecord variable you can distinguish between an operation system and Delphi exception. Also you can find out if the stack unwinding is in progress.</p>
+<p class="clsParagraphText">After that, your handlers will be called if any exceptions occur.</p>
+<p class="clsParagraphText">Because Delphi has different handlers for usual procedures and safecall procedures you can have four handlers which will make things easier:</p>
+<p class="clsParagraphText">
+<ul class="clsParagraphText">
+<li><b><font color="#000090">OnSystemException</font></b>&nbsp;- handles the exceptions like "Access Violation" fired by the operation system.</li>
+</ul>
+</p>
+<p class="clsParagraphText">Within this handler you will be able to read the CPU registers, get the call stack info and of course find out what kind of exception has just occurred.</p>
+<p class="clsParagraphText">
+<ul class="clsParagraphText">
+<li><b><font color="#000090">OnDelphiException</font></b>&nbsp;- handles the exceptions caused by the "raise Exception" operation performs.</li>
+</ul>
+</p>
+<p class="clsParagraphText">Within this handler you can access the Exception class caused this situation.</p>
+<p class="clsParagraphText">
+<ul class="clsParagraphText">
+<li><b><font color="#000090">OnDelphiSafeCallException</font></b>&nbsp;- handles the exceptions caused by "raise Exception" inside any safe-call procedure, e.g. while an ActiveX / COM object method calls.</li>
+</ul>
+</p>
+<p class="clsParagraphText">Within this handler you can check an instance of a successor of the Object class whose method has raised this exception.</p>
+<p class="clsParagraphText">
+<ul class="clsParagraphText">
+<li><b><font color="#000090">OnSystemSafeCallException</font></b>&nbsp;- handles the exceptions like "Access Violation" occured inside safe-call procedures.</li>
+</ul>
+</p>
+<p class="clsParagraphText">Within this handler you have an opportunity to redirect an exception to the SafeCallException method of the Object class which is used to set the COM error info. If you let this method handle exceptions, the clients of your COM component will be able to find the real problem not just the “Unspecified error” message.</p>
+<p class="clsParagraphText"><a name="-1"></a><h2 class="clsParagraphText"> Working with procedure call stack. </h2>
+</p>
+<p class="clsParagraphText">As you probably noticed the information about pointer within the code where exception occurred is not enough to locate and fix the problem caused this exception. By using the&nbsp;<b><font color="#000090">TContext</font></b>&nbsp;structure provided by the SEH engine you can get full call stack, including any operation system calls. To resolve the procedure and function addresses with their source code names you have to use the debug information produced during the compilation of the program.</p>
+<p class="clsParagraphText">There is number of different methods which can help you to walk through the stack frames and resolve procedure names. In this article we used the&nbsp;<b><font color="#000090">DbgHelp</font></b>&nbsp;library shipped by Microsoft. This library allows you to work with system debug symbols information. Unfortunately, Delphi could not produce the debug information in the Microsoft's format, so you have to use other utilities (map2dbg, by&nbsp;<b><a border="0" hspace="0" href="http://www.wischik.com/lu/programmer">Lucian Wischik</a></b>) which can produce such symbols and also give us other advantages such as ability to access and display the stack of your application and the system stack simultaneously - Delphi's standard debugger cannot to do this.</p>
+<p class="clsParagraphText">The other way would be writting your own engine to parse Delphi debug symbols and provide user-like appearence of the call stack. This method is used by&nbsp;<b><font color="#000090">MemCheck</font></b>&nbsp;for example.</p>
+<p class="clsParagraphText">Let's go ahead and study how to unwind procedure call stack using the DbgHelp library.</p>
+<p class="clsParagraphText">The DbgHelp functions work with the TContext exception structure, so in order to extract a function name by using its memory allocation address you can use the following code:</p>
+<p class="clsParagraphText">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+<tr><td>
+<table class="clsOuterTable" border="0" cellspacing="0" cellpadding="0" width="100%">
+<tr><td>
+<table border="0" cellspacing="1" cellpadding="4" width="100%">
+<tr align="left" class="clsTableTd">
+<td class="clsTableTd" width="100%">var <br>&nbsp;&nbsp;&nbsp;dwDisplacement: DWORD; <br>&nbsp;&nbsp;&nbsp;buffer: array[0..$1FF] of BYTE; <br>&nbsp;&nbsp;&nbsp;pSymbol: PIMAGEHLP_SYMBOL; <br>begin <br>&nbsp;&nbsp;&nbsp;pSymbol := PIMAGEHLP_SYMBOL(@buffer); <br>&nbsp;&nbsp;&nbsp;pSymbol.SizeOfStruct := sizeof(IMAGEHLP_SYMBOL); <br>&nbsp;&nbsp;&nbsp;pSymbol.MaxNameLength := sizeof(buffer) - sizeof(IMAGEHLP_SYMBOL) + 1; <br>&nbsp;&nbsp;&nbsp;... <br>&nbsp;&nbsp;&nbsp;if (SymGetSymFromAddr(GetCurrentProcess(), DWORD(pFunc), dwDisplacement, pSymbol)) then <br>&nbsp;&nbsp;&nbsp;begin <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Result := PChar(@pSymbol.Name); <br>&nbsp;&nbsp;&nbsp;end; <br>end; </td>
+</tr>
+</table>
+</td></tr>
+</table>
+</td></tr>
+</table>
+</p>
+<p class="clsParagraphText">Where the pFunc variable points to the address you want to get the symbolic name for.</p>
+<p class="clsParagraphText">The application's debug symbols are loaded automatically by the DbgHelp library during its initialization.</p>
+<p class="clsParagraphText">The following code extracts the next call stack entry for the given context. You can call this code recursively to walk through the whole stack from exception point to any deepness you wish.</p>
+<p class="clsParagraphText">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+<tr><td>
+<table class="clsOuterTable" border="0" cellspacing="0" cellpadding="0" width="100%">
+<tr><td>
+<table border="0" cellspacing="1" cellpadding="4" width="100%">
+<tr align="left" class="clsTableTd">
+<td class="clsTableTd" width="100%">while (0 &lt;&gt; StackWalk(IMAGE_FILE_MACHINE_I386, GetCurrentProcess(), GetCurrentThread(), <br>&nbsp;&nbsp;&nbsp;@FStack, pContext, nil, SymFunctionTableAccess, SymGetModuleBase, nil)) then <br>begin <br>&nbsp;&nbsp;&nbsp;frame := TclStackFrame.Create(); <br>&nbsp;&nbsp;&nbsp;frame.CallAddress := Pointer(FStack.AddrPC.Offset); <br>end; </td>
+</tr>
+</table>
+</td></tr>
+</table>
+</td></tr>
+</table>
+</p>
+<p class="clsParagraphText">The pContext variable is an instance of the TContext structure describes the thread state and the FStack variable is an instance of the STACKFRAME structure which allows you to iterate through the whole stack.</p>
+<p class="clsParagraphText">For your convenience we implemented all methods for working with stack in the TclStackTracer class. You can find full source code at&nbsp;<b><a border="0" hspace="0" href="ExWatcher.zip">ExWatcher.zip</a></b>. There is a simple component with both the events for each exception type and the functions for stack walking. You can use this component in order to collect the exception information and receive it from the application users, e.g. via e-mail or using uploading via internet. Please see our&nbsp;<b><a border="0" hspace="0" href="../article005/sendbugreport.asp">Automatic bug report sending from your application</a></b>&nbsp;article for more details.</p>
+<p class="clsParagraphText"><a name="-1"></a><h2 class="clsParagraphText"> How to use this Demo program. </h2>
+</p>
+<p class="clsParagraphText">
+<ul class="clsParagraphText">
+<li>Compile the ExWatcherDemo project with the following options:<br>Compiler: Stack Frames - Enabled;<br>Linker: Map File - Public.</li>
+<li>Run the map2dbg.exe utility in order to produce the file with debug info. Use the command line with the following parameters:&nbsp;<i>map2dbg.exe ExWatcherDemo.exe.</i></li>
+</ul>
+</p>
+<p class="clsParagraphText"><b><font color="#000090">Note!</font></b>&nbsp;You should always distribute your programs (in our case&nbsp;<i>ExWatcherDemo.exe</i>) together with their *.dbg files (in our case&nbsp;<i>ExWatcherDemo.dbg</i>).</p>
+<p class="clsParagraphText"><a name="-1"></a><h2 class="clsParagraphText"> Conclusion. </h2>
+</p>
+<p class="clsParagraphText">The&nbsp;<b><font color="#000090">map2dbg</font></b>&nbsp;utility converts Delphi map files to Windows native debug files. The current version of this program converts only information related to procedure names and does not convert the source code line and source file name. If you want to retrieve the information about source code line and source file name you have to use some other programs to produce proper dbg file. Another way would be modifying the source code of the map2dbg program in order to implement the source line information extraction and conversion.</p>
+<p class="clsParagraphText">You can learn more about&nbsp;<b><font color="#000090">map2dbg</font></b>&nbsp;<b><font color="#000090">(Ms-dbg</font></b>) utility provided by&nbsp;<font color="#000000">Lucian Wischik at</font>&nbsp;<b><a border="0" hspace="0" href="http://www.wischik.com/lu/programmer/">http://www.wischik.com/lu/programmer/</a></b>&nbsp;<font color="#000000">web page.</font></p>
+<p class="clsParagraphText">This code is constantly improved and your comments and suggestions are always welcome.</p>
+<p class="clsParagraphText">Please write us at&nbsp;<a border="0" hspace="0" href="mailto:info@clevercomponents.com">info@clevercomponents.com</a></p>
+<p class="clsParagraphText">With best regards,<br>Sergey S and Alex P<br>Clever Components team.<br><font color="#7F9698"></font><a border="0" hspace="0" href="http://www.clevercomponents.com/">www.clevercomponents.com</a></p>
+</td></tr>
+</table>
+</td></tr>
+</table>
+</td>
+<td width="2%"><img height="1" width="1" alt="" src="/images/1x1.gif"></td></tr>
+<tr><td height="4" colspan="3"><img height="1" width="1" alt="" src="/images/1x1.gif"><br></td></tr>
+<tr><td colspan="3">
+<table width="70%" border="0" cellspacing="0" cellpadding="0" align="center">
+<tr class="clsLowerMenu">
+<td align="center" width="12%"><a class="clsLowerMenuItem" href="/home/news.asp">Home</a></td>
+<td align="center" width="12%"><a class="clsLowerMenuItem" href="/support/faqs.asp">FAQs</a></td>
+<td align="center" width="12%"><a class="clsLowerMenuItem" href="/sitemap/sitemap.asp">Site Map</a></td>
+<td align="center" width="12%"><a class="clsLowerMenuItem" href="/products/index.asp">Products</a></td>
+<td align="center" width="12%"><a class="clsLowerMenuItem" href="/articles/index.asp">Articles</a></td>
+<td align="center" width="12%"><a class="clsLowerMenuItem" href="/downloads/index.asp">Downloads</a></td>
+<td align="center" width="12%"><a class="clsLowerMenuItem" href="/order/index.asp">Order</a></td>
+<td align="center" width="12%"><a class="clsLowerMenuItem" href="/support/index.asp">Support</a></td>
+</tr>
+</table>
+</td></tr>
+</table>
+</center>
+</td></tr>
+<tr><td>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr><td height="5"><img height="1" width="1" alt="" src="/images/1x1.gif"></td></tr>
+<tr><td class="clsSiteDelim" height="5"><img height="1" width="1" alt="" src="/images/1x1.gif"></td></tr>
+<tr><td height="2"><img height="1" width="1" alt="" src="/images/1x1.gif"></td></tr>
+<tr><td class="clsSiteCopyText" align="center">
+				Copyright &copy; 2000-2003 Clever Components ALL RIGHTS RESERVED&nbsp;
+				Legal Notices&nbsp;<a class="clsSiteCopyText" href="mailto:admin@clevercomponents.com?subject=ALL SITE">Clever Components</a></td></tr>
+<tr><td class="clsSiteLastUpdate" align="center">&nbsp;Last Updated:&nbsp;31 Jul, 2003</td></tr>
+</table>
+</td></tr>
+</table>
+</body>
+</html>

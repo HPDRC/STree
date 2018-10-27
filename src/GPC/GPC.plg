@@ -1,0 +1,42 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: GPC - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "j:\temp\RSPB3DD.tmp" with contents
+[
+/nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "GPC_EXPORTS" /Fp"Release/GPC.pch" /Yu"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"W:\Stree\ZipCodes\GPC\GPC.cpp"
+]
+Creating command line "cl.exe @j:\temp\RSPB3DD.tmp" 
+Creating temporary file "j:\temp\RSPB3DE.tmp" with contents
+[
+/nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "GPC_EXPORTS" /Fp"Release/GPC.pch" /Yc"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"W:\Stree\ZipCodes\GPC\StdAfx.cpp"
+]
+Creating command line "cl.exe @j:\temp\RSPB3DE.tmp" 
+Creating temporary file "j:\temp\RSPB3DF.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /incremental:no /pdb:"Release/GPC.pdb" /machine:I386 /out:"Release/GPC.dll" /implib:"Release/GPC.lib" 
+.\Release\GPC.obj
+.\Release\StdAfx.obj
+]
+Creating command line "link.exe @j:\temp\RSPB3DF.tmp"
+<h3>Output Window</h3>
+Compiling...
+StdAfx.cpp
+Compiling...
+GPC.cpp
+Linking...
+   Creating library Release/GPC.lib and object Release/GPC.exp
+
+
+
+<h3>Results</h3>
+GPC.dll - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>
