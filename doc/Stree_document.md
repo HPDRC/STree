@@ -22,9 +22,9 @@ Initialize file is D:\Stree\streeweb.ini.
 
 Streeweb structure:
 
-![Streeweb structure] (https://github.com/HPDRC/STree/blob/master/doc/Stree_document_Images/Streeweb%20structure.png)
+![Streeweb structure] (https://github.com/HPDRC/STree/blob/master/doc/Streeweb_structure.png)
 
-[Streeweb structure]: (https://github.com/HPDRC/STree/blob/master/doc/Stree_document_Images/Streeweb%20structure.png) "Streeweb structure"
+[Streeweb structure]: (https://github.com/HPDRC/STree/blob/master/doc/Streeweb_structure.png) "Streeweb structure"
 
 1.	Strip object is used to search the results in some specific data set such as realestate. 
 2.	Street object: Stree needs update navteq data set which is realized in D:\src\webobjects\streetobject.pas TStreetObject.Init. Also you can search street.
@@ -35,9 +35,9 @@ Streeweb structure:
 
 Stree find procedure:
 
-![Stree procedure] (https://github.com/HPDRC/STree/blob/master/doc/Stree_document_Images/Stree_procedure.png)
+![Stree procedure] (https://github.com/HPDRC/STree/blob/master/doc/Stree_procedure.png)
 
-[Stree procedure]: (https://github.com/HPDRC/STree/blob/master/doc/Stree_document_Images/Stree_procedure.png) "Streeweb procedure"
+[Stree procedure]: (https://github.com/HPDRC/STree/blob/master/doc/Stree_procedure.png) "Streeweb procedure"
 
 The Initialize procedure is from Webobject.Twebinterf.Initialize to Cityobject.Tcityobject.init()
 
