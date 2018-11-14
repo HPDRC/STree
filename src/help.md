@@ -2,6 +2,7 @@
 Release as of 10/17/2002 07:18 PM
 
 Commands:
+
 **1. help** - displays this page. Example: [http://n158.cs.fiu.edu/help][helpUrl]
 
 [helpUrl]: http://n158.cs.fiu.edu/help
