@@ -22,7 +22,7 @@ Initialize file is D:\Stree\streeweb.ini.
 
 Streeweb structure:
 
-![Streeweb structure] (https://github.com/HPDRC/STree/blob/master/doc/Streeweb_structure.png)
+![Streeweb structure](https://github.com/HPDRC/STree/blob/master/doc/Streeweb_structure.png)
 
 [Streeweb structure]: (https://github.com/HPDRC/STree/blob/master/doc/Streeweb_structure.png) "Streeweb structure"
 
@@ -35,7 +35,7 @@ Streeweb structure:
 
 Stree find procedure:
 
-![Stree procedure] (https://github.com/HPDRC/STree/blob/master/doc/Stree_procedure.png)
+![Stree procedure](https://github.com/HPDRC/STree/blob/master/doc/Stree_procedure.png)
 
 [Stree procedure]: (https://github.com/HPDRC/STree/blob/master/doc/Stree_procedure.png) "Streeweb procedure"
 
